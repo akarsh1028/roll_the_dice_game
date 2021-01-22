@@ -1,0 +1,172 @@
+import java.util.*;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scan=new Scanner(System.in);
+		int count=0;
+		int player1=-1;
+		int player2=-1;
+		String idx1="";
+		String idx2="";
+		String name3="";
+		System.out.print("Enter Player-1 Name: ");
+		String name1=scan.nextLine();
+		System.out.print("Enter Player-2 Name: ");
+		String name2=scan.nextLine();
+		 while(true){
+			 if(name1.equals(name2)){
+				System.out.print("Select different name for Player-2: ");
+				 name3=scan.nextLine();
+				 name2=name3;
+			 }
+			 else {
+				 break;
+			 }
+		}
+		String[] array=new String[101];
+		for(int i=0;i<array.length-1;i++) {
+			if(array[i]==null)
+			array[i]="_";
+		}
+		array[100]="FINISH";
+		System.out.println(name1+" is at position: Locked");
+		System.out.println(name2+" is at position: Locked");
+		System.out.println();
+		while(true) {
+			int dice=(int)(Math.random()*6)+1;
+			if(count%2==0) {
+				System.out.println(name1+"' s turn");
+				System.out.print("Enter 'roll' to roll the dice:");
+				String roll=scan.nextLine();
+				System.out.println("Dice Value is:"+dice);
+				if(roll.equals("roll")) {	
+					if(player1==-1) {
+						if(dice==6) {
+							player1=0;
+							idx1=array[player1];
+							array[player1]=name1;
+							System.out.println(name1+" is at position: Unlocked");
+						}
+						else {
+							System.out.println(name1+" is at position: Locked");
+							count++;
+						}
+					}
+					else if(player1!=-1 && dice!=6) {
+						if(player1+dice<=100) {
+							if(player1==0) {
+								array[player1]=idx1;
+							}
+							else
+							array[player1-1]=idx1;
+						player1+=dice;
+						}
+						if(player1==player2) {
+							player2=-1;
+							System.out.println(name1+" cuts "+name2);
+						}
+						array[player1-1]=name1;
+						System.out.println(name1+" is at position:"+player1);
+						count++;
+					}
+					else if(player1!=-1 && dice==6) {
+						if(player1+dice<=100) {
+							if(player1==0) {
+								array[player1]=idx1;
+							}
+							else
+							array[player1-1]=idx1;
+						player1+=dice;
+						}
+						if(player1>=94) {
+							count++;
+						}
+						if(player1==player2) {
+							player2=-1;
+							System.out.println(name1+" cuts "+name2);
+						}
+						array[player1-1]=name1;
+						System.out.println(name1+" is at position:"+player1);
+					}
+					
+				}
+				else {
+					System.out.println("Invalid Input Start Program Again.");
+					break;
+				}
+			}
+			else if(count%2!=0) {
+				System.out.println(name2+"'s turn");
+				System.out.print("Enter 'roll' to roll the dice:");
+				String roll=scan.nextLine();
+				System.out.println("Dice Value is:"+dice);
+				if(roll.equals("roll")) {
+					if(player2==-1) {
+						if(dice==6) {
+							player2=0;
+							idx2=array[player2];
+							array[player2]=name2;
+							System.out.println(name2+" is at position: Unlocked");
+						}
+						else {
+							System.out.println(name2+" is at position: Locked");
+							count++;
+						}
+					}
+					else if(player2!=-1 && dice!=6) {
+						if(player2+dice<=100) {
+							if(player2==0) {
+								array[player2]=idx2;
+							}
+							else
+							array[player2-1]=idx2;
+						player2+=dice;
+						}
+						if(player1==player2) {
+							player1=-1;
+							System.out.println(name2+" cuts "+name1);
+						}
+						array[player2-1]=name2;
+						System.out.println(name2+" is at position:"+player2);
+						count++;
+					}
+					else if(player2!=-1 && dice==6) {
+						if(player2+dice<=100) {
+							if(player2==0) {
+								array[player2]=idx2;
+							}
+							else
+							array[player2-1]=idx2;
+						player2+=dice;
+						}
+						if(player2==94) {
+							count++;
+						}
+						if(player1==player2) {
+							player1=-1;
+							System.out.println(name2+" cuts "+name1);
+						}
+						array[player2-1]=name2;
+						System.out.println(name2+" is at position:"+player2);
+					}
+				}
+				else {
+					System.out.println("Invalid Input Start Program Again.");
+					break;
+				}
+			}
+			if(player1>=100) {
+				System.out.print(name1+" is WINNER!!!");
+				break;
+			}
+			if(player2>=100) {
+				System.out.print(name2+" is WINNER!!!");
+				break;
+			}
+			for(int i=0;i<array.length;i++) {
+				System.out.print(array[i]+" ");
+			}
+			System.out.println("\n");
+		}
+	}
+}
